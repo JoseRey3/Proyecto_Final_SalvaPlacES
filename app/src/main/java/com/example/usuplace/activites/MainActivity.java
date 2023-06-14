@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mCategoryAdapter.startListening();
+        //mCategoryAdapter.startListening();
         mItemAdapter.startListening();
     }
     /*public void showPopupMenu(View view) {

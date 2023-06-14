@@ -2,8 +2,10 @@ package com.example.usuplace.activites;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -70,5 +72,17 @@ public class ItemDetail extends AppCompatActivity {
         direccion = findViewById(R.id.direccion);
         descripcion = findViewById(R.id.descripcion);
         img = findViewById(R.id.img);
+    }
+
+    public void openMainActivity(View view) {
+        Intent intent = new Intent(ItemDetail.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    public void openIntro(View view) {
+        Intent intent = new Intent(ItemDetail.this, IntroActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }
