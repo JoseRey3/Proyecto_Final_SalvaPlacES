@@ -21,8 +21,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/textViewsearch"
+            <SearchView
+                android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="32dp"
@@ -31,14 +31,11 @@
                 android:background="@drawable/edittext_search_backgroud"
                 android:drawableStart="@drawable/search_icon"
                 android:drawablePadding="8dp"
-                android:ems="10"
-                android:hint="A qué lugar deseas viajar"
-                android:inputType="textPersonName"
                 android:padding="8dp"
-                android:textColor="@color/black"
-                android:textColorHint="#686868"
+                android:textColor="#000000"
                 android:textSize="18dp"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:textColorHint="#000000"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,19 +45,10 @@
                 android:layout_marginEnd="32dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Categorias"
-                    android:textColor="#000000"
-                    android:textSize="20sp" />
-
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/category"
+                android:id="@+id/recyclerViewCategory"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -69,7 +57,7 @@
                 android:paddingEnd="24dp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/itemRV"
+                android:id="@+id/recyclerViewItem"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="70dp"
@@ -77,6 +65,10 @@
                 android:clipToPadding="false"
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp" />
+
+            <SearchView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
     </ScrollView>
 
@@ -176,7 +168,8 @@
                         android:layout_height="20dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/bottom_btn2" />
+                        app:srcCompat="@drawable/bottom_btn2"
+                        android:onClick="showPopupMenu" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.bottomappbar.BottomAppBar>

@@ -4,51 +4,144 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
+import android.widget.SearchView;
 
 import com.example.usuplace.Adapter.CategoryAdapter;
 import com.example.usuplace.Adapter.ItemAdapter;
 import com.example.usuplace.Domain.CategoryDomain;
 import com.example.usuplace.Domain.ItemDomain;
 import com.example.usuplace.R;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private RecyclerView recyclerViewItem, recyclerViewCategory;
+    CategoryAdapter mCategoryAdapter;
+    ItemAdapter mItemAdapter;
+    private FirebaseFirestore  mFirestore;
+    private SearchView searchView;
 
-    private RecyclerView.Adapter adapterplace, adapterCategory;
-    private RecyclerView recyclerViewPlace, recyclerViewCategory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        searchView = findViewById(R.id.searchView);
+        mFirestore = FirebaseFirestore.getInstance();
 
-        initRecyclerView();
+        //category
+        recyclerViewCategory= findViewById(R.id.recyclerViewCategory);
+        recyclerViewCategory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        Query query =mFirestore.collection("categoria");
+
+        FirestoreRecyclerOptions<CategoryDomain> firestoreRecyclerOptions =
+                new FirestoreRecyclerOptions
+                        .Builder<CategoryDomain>()
+                        .setQuery(query, CategoryDomain.class)
+                        .build();
+        mCategoryAdapter = new CategoryAdapter(firestoreRecyclerOptions);
+        mCategoryAdapter.notifyDataSetChanged();
+        recyclerViewCategory.setAdapter(mCategoryAdapter);
+
+        //lugares
+        recyclerViewItem= findViewById(R.id.recyclerViewItem);
+        recyclerViewItem.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        Query queryPlace = mFirestore.collection("lugares");
+        FirestoreRecyclerOptions<ItemDomain> option =
+                new FirestoreRecyclerOptions
+                        .Builder<ItemDomain>()
+                        .setQuery(queryPlace, ItemDomain.class)
+                        .build();
+        mItemAdapter = new ItemAdapter(option);
+        mItemAdapter.notifyDataSetChanged();
+        recyclerViewItem.setAdapter(mItemAdapter);
+        search_view();
     }
 
-    private void initRecyclerView() {
-        //Category
-        ArrayList<CategoryDomain> CatArrayList = new ArrayList<>();
-        CatArrayList.add(new CategoryDomain("Pueblitos Mágicos", "cat_1"));
-        CatArrayList.add(new CategoryDomain("Acuaticos", "cat_2"));
+    private void search_view() {
+        // Configurar el filtro de búsqueda
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String newText) {
+                filterItems(newText);
+                return false;
+            }
 
-        recyclerViewCategory= findViewById(R.id.category);
-        recyclerViewCategory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        RecyclerView.Adapter<CategoryAdapter.ViewHolder> adapterCategory = new CategoryAdapter(CatArrayList);
-        recyclerViewCategory.setAdapter(adapterCategory);
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterItems(newText);
+                return false;
+            }
+        });
+    }
 
-        //Place
-        ArrayList<ItemDomain> ItemArraylist = new ArrayList<>();
-        ItemArraylist.add(new ItemDomain("Casa de campo1", "San José, San Salvador", "Es el mejor lugar para vacacionar", 12, "pic1"));
-        ItemArraylist.add(new ItemDomain("Casa de campo2", "San José, San Salvador", "Es el mejor lugar para vacacionar", 12, "pic2"));
-        ItemArraylist.add(new ItemDomain("Casa de campo3", "San José, San Salvador", "Es el mejor lugar para vacacionar", 12, "pic1"));
-        ItemArraylist.add(new ItemDomain("Casa de campo4", "San José, San Salvador", "Es el mejor lugar para vacacionar", 12, "pic2"));
+    private void filterItems(String s) {
+        Query queryPlace;
+        queryPlace = mFirestore.collection("lugares");
+        FirestoreRecyclerOptions<ItemDomain> options =
+                new FirestoreRecyclerOptions.Builder<ItemDomain>()
+                        .setQuery(queryPlace.orderBy("lugar")
+                                .startAt(s).endAt(s+"~")
+                                , ItemDomain.class).build();
+        mItemAdapter = new ItemAdapter(options);
+        mItemAdapter.startListening();
+        recyclerViewItem.setAdapter(mItemAdapter);
+    }
 
-        recyclerViewPlace= findViewById(R.id.itemRV);
-        recyclerViewPlace.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        RecyclerView.Adapter<ItemAdapter.ViewHolder> adapterPlace = new ItemAdapter(ItemArraylist);
-        recyclerViewPlace.setAdapter(adapterPlace);
+    /*private void filterCategoria() {
+        String textoExtra=  getIntent().getStringExtra("category");
+            Query queryPlace;
+            queryPlace = mFirestore.collection("lugares")
+                    .whereEqualTo("category", textoExtra);
+            FirestoreRecyclerOptions<ItemDomain> options =
+                    new FirestoreRecyclerOptions
+                            .Builder<ItemDomain>()
+                            .setQuery(queryPlace, ItemDomain.class)
+                            .build();
+            mItemAdapter = new ItemAdapter(options);
+            mItemAdapter.startListening();
+            recyclerViewItem.setAdapter(mItemAdapter);
+    }
+*/
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mCategoryAdapter.startListening();
+        mItemAdapter.startListening();
+    }
+    public void showPopupMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
 
+        // Manejar los clics en los elementos del menú
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_profile:
+                        // Acción para "Perfil"
+                        return true;
+                    case R.id.menu_logout:
+                        // Acción para "Cerrar Sesión"
+                        Intent intentc = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intentc);
+                        finish(); // Finalizar la actividad actual
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        // Mostrar el menú desplegable
+        popupMenu.show();
     }
 }

@@ -1,44 +1,48 @@
 package com.example.usuplace.Domain;
 
+
 import java.io.Serializable;
 
-public class ItemDomain implements Serializable{
-    private String title;
-    private String addres;
-    private String description;
+public class ItemDomain implements Serializable {
+    private String lugar;
+    private String direccion;
+    private String descripcion;
     private int price;
-    private String pic;
+    private String ofrece;
+    private String img;
 
-    public ItemDomain(String title, String addres, String description, int price, String pic) {
-        this.title = title;
-        this.addres = addres;
-        this.description = description;
+    public ItemDomain(){
+    }
+
+    public ItemDomain(String lugar, String direccion, String descripcion, int price, String ofrece, String img) {
+        this.lugar = lugar;
+        this.direccion = direccion;
+        this.descripcion = descripcion;
         this.price = price;
-        this.pic = pic;
+        this.ofrece = ofrece;
+        this.img = img;
     }
 
-    public String getTitle() {
-        return title;
+    public String getLugar() {return lugar;}
+
+    public void setLugar(String lugar) {
+        this.lugar = lugar;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public String getAddres() {
-        return addres;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
-    public void setAddres(String addres) {
-        this.addres = addres;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public int getPrice() {
@@ -49,11 +53,19 @@ public class ItemDomain implements Serializable{
         this.price = price;
     }
 
-    public String getPic() {
-        return pic;
+    public String getOfrece() {
+        return ofrece;
     }
 
-    public void setPic(String pic) {
-        this.pic = pic;
+    public void setOfrece(String ofrece) {
+        this.ofrece = ofrece;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 }

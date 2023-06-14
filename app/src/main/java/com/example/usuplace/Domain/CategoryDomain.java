@@ -1,15 +1,16 @@
 package com.example.usuplace.Domain;
 
-import java.io.Serializable;
 
-public class CategoryDomain implements Serializable{
-    public CategoryDomain(String category, String imgCat) {
-        this.category = category;
-        this.imgCat = imgCat;
-    }
+public class CategoryDomain{
 
     private String category;
-    private String imgCat;
+
+    public CategoryDomain(){
+
+    }
+    public CategoryDomain(String category) {
+        this.category = category;
+    }
 
     public String getCategory() {
         return category;
@@ -19,11 +20,4 @@ public class CategoryDomain implements Serializable{
         this.category = category;
     }
 
-    public String getImgCat() {
-        return imgCat;
-    }
-
-    public void setImgCat(String imgCat) {
-        this.imgCat = imgCat;
-    }
 }
