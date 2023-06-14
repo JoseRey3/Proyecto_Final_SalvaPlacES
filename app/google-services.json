@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "583971643032",
+    "project_id": "usuplaces",
+    "storage_bucket": "usuplaces.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:583971643032:android:b87c99bf60b1cf5a9fbaed",
+        "android_client_info": {
+          "package_name": "com.example.usuplace.activites"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "583971643032-qt2rr6es3s1ftvjsgqdns4ichda8blkm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQSdD_rUHMwK7164a4fZb2rpjCOTaHMVM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "583971643032-qt2rr6es3s1ftvjsgqdns4ichda8blkm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
