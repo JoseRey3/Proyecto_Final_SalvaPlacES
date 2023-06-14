@@ -32,10 +32,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        searchView = findViewById(R.id.searchView);
+        //searchView = findViewById(R.id.searchView);
         mFirestore = FirebaseFirestore.getInstance();
 
-        //category
+        /*//category
         recyclerViewCategory= findViewById(R.id.recyclerViewCategory);
         recyclerViewCategory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                         .build();
         mCategoryAdapter = new CategoryAdapter(firestoreRecyclerOptions);
         mCategoryAdapter.notifyDataSetChanged();
-        recyclerViewCategory.setAdapter(mCategoryAdapter);
+        recyclerViewCategory.setAdapter(mCategoryAdapter);*/
 
         //lugares
         recyclerViewItem= findViewById(R.id.recyclerViewItem);
@@ -62,11 +62,11 @@ public class MainActivity extends AppCompatActivity {
         mItemAdapter = new ItemAdapter(option);
         mItemAdapter.notifyDataSetChanged();
         recyclerViewItem.setAdapter(mItemAdapter);
-        search_view();
+        //search_view();
     }
 
-    private void search_view() {
-        // Configurar el filtro de búsqueda
+    /*private void search_view() {
+        //Configurar el filtro de búsqueda
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String newText) {
@@ -80,9 +80,9 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-    }
+    }*/
 
-    private void filterItems(String s) {
+    /*private void filterItems(String s) {
         Query queryPlace;
         queryPlace = mFirestore.collection("lugares");
         FirestoreRecyclerOptions<ItemDomain> options =
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         mCategoryAdapter.startListening();
         mItemAdapter.startListening();
     }
-    public void showPopupMenu(View view) {
+    /*public void showPopupMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(this, view);
         popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
 
@@ -143,5 +143,17 @@ public class MainActivity extends AppCompatActivity {
 
         // Mostrar el menú desplegable
         popupMenu.show();
+    }*/
+
+    public void openMainActivity(View view) {
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    public void openIntro(View view) {
+        Intent intent = new Intent(MainActivity.this, IntroActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }
